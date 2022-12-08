@@ -37,10 +37,10 @@ export default (): PluginOption => ({
   transform(code, id) {
     if (!id.endsWith(".vue")) return;
 
-    const matches = transferAttribute(code).match(/<template(.*?)(?<!\\)>(.*?)<\/template>/ims);
+    const matches = transferAttribute(code).match(/<template(.*?)(?<!\\)>(.*)<\/template>/ims);
     if (!matches) return;
 
-    let [, attrRaw, content] = matches;
+    let [template, attrRaw, content] = matches;
     attrRaw = attrRaw.replace(/\\>/imgs, ">");
     content = content.replace(/\\>/imgs, ">");
 
@@ -53,9 +53,6 @@ export default (): PluginOption => ({
     attrMap.delete("tag");
     attrRaw = attrMapToRaw(attrMap);
     
-    return code.replace(
-      /<template[^>]*>.*<\/template>/msi,
-      generate(tag, attrRaw, content)
-    );
+    return code.replace(template, generate(tag, attrRaw, content));
   }
 });
