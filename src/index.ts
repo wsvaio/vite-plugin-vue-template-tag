@@ -1,8 +1,8 @@
 import { PluginOption } from "vite";
 
-const generate = (tag: string, attrText: string, content: string) => `
+const generate = (tag: string, attrRaw: string, content: string) => `
 <template>
-<${tag}${attrText}><!-- generate by vite-plugin-vue-template-tag -->${content}</${tag}>
+<${tag}${attrRaw ? ` ${attrRaw}` : ""}><!-- generate by vite-plugin-vue-template-tag -->${content}</${tag}>
 </template>
 `
 const transferAttribute = (raw: string) => {
@@ -37,8 +37,7 @@ export default (): PluginOption => ({
   transform(code, id) {
     if (!id.endsWith(".vue")) return;
 
-    code = transferAttribute(code);
-    const matches = code.match(/<template(.*?)(?<!\\)>(.*?)<\/template>/ims);
+    const matches = transferAttribute(code).match(/<template(.*?)(?<!\\)>(.*?)<\/template>/ims);
     if (!matches) return;
 
     let [, attrRaw, content] = matches;
@@ -53,14 +52,7 @@ export default (): PluginOption => ({
     attrMap.delete("lang");
     attrMap.delete("tag");
     attrRaw = attrMapToRaw(attrMap);
-    attrRaw = attrRaw ? ` ${attrRaw}` : "";
-
-
-    console.log(code.replace(
-      /<template[^>]*>.*<\/template>/msi,
-      generate(tag, attrRaw, content)
-    ));
-
+    
     return code.replace(
       /<template[^>]*>.*<\/template>/msi,
       generate(tag, attrRaw, content)

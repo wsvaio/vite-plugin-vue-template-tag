@@ -4,10 +4,10 @@
   "description": "支持.vue文件<template>根标签添加tag等属性，解析成新的子元素并包裹旧的子元素",
   "author": "wsvaio <wsvaio@qq.com>",
   "license": "MIT",
-  "homepage": "https://github.com/wsvaio/vite-plugin-vue-script-attrs",
+  "homepage": "https://github.com/wsvaio/vite-plugin-vue-template-tag",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wsvaio/vite-plugin-vue-script-attrs.git"
+    "url": "git+https://github.com/wsvaio/vite-plugin-vue-template-tag.git"
   },
   "keywords": [
     "vite",
