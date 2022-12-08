@@ -2,7 +2,7 @@ import { PluginOption } from "vite";
 
 const generate = (tag: string, attrRaw: string, content: string) => `
 <template>
-<${tag}${attrRaw ? ` ${attrRaw}` : ""}><!-- generate by vite-plugin-vue-template-tag -->${content}</${tag}>
+<${tag}${attrRaw ? ` ${attrRaw}` : ""}>${content}</${tag}>
 </template>
 `
 const transferAttribute = (raw: string) => {
@@ -41,6 +41,7 @@ export default (): PluginOption => ({
     if (!matches) return;
 
     let [template, attrRaw, content] = matches;
+    template = template.replace(/\\>/imgs, ">");
     attrRaw = attrRaw.replace(/\\>/imgs, ">");
     content = content.replace(/\\>/imgs, ">");
 
@@ -52,7 +53,6 @@ export default (): PluginOption => ({
     attrMap.delete("lang");
     attrMap.delete("tag");
     attrRaw = attrMapToRaw(attrMap);
-    
     return code.replace(template, generate(tag, attrRaw, content));
   }
 });

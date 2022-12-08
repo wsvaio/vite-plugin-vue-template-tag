@@ -29,7 +29,7 @@ import templateTag from "vite-plugin-vue-template-tag";
 4. OUT
 ```vue
 <template>
-<div class="root" @click="(ev) => { ev.preventDefault(); }" :isHidden="false" hide><!-- generate by vite-plugin-vue-template-tag -->
+<div class="root" @click="(ev) => { ev.preventDefault(); }" :isHidden="false" hide>
   <h1>Hello World !</h1>
 
 </div>
